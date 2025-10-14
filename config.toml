@@ -1,0 +1,12 @@
+
+# 监听窗口变化 :
+# 1h 1小说内价格变化
+# 4h 4小时内价格变化
+# 1d 1天内价格变化
+window_size='1h'
+
+#需要监听的币种
+listen_currency = [
+    'btcusdt',
+    'ethusdt',
+]
