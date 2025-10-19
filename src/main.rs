@@ -8,9 +8,22 @@ use anyhow::Result;
 use futures_util::StreamExt;
 use tokio_tungstenite::connect_async;
 
+
+fn parse_config() -> Result<AppConfig> {
+    let config_content = std::fs::read_to_string("config.toml")?;
+    let config: AppConfig = toml::from_str(&config_content)?;
+    Ok(config)
+}
+
 #[tokio::main]
 async fn main() -> Result<()> {
-    let config: AppConfig = toml::from_str(&std::fs::read_to_string("config.toml")?)?;
+    let config: AppConfig = match parse_config() {
+        Ok(cfg) => cfg,
+        Err(_) => {
+            println!("⚠️  Failed to read config.toml, using default configuration.");
+            AppConfig::default()
+        }
+    };
     let (mut ws_stream, _) = connect_async(config.generate_websocket_url()).await?;
     let mut trader_manager = Box::new(TraderManager::new());
 

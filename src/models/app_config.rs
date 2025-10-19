@@ -24,4 +24,14 @@ impl AppConfig {
         }
         url
     }
+
+    pub fn default() -> Self {
+        AppConfig {
+            window_size: "1h".to_string(),
+            listen_currency: vec![
+                "btcusdt".to_string(),
+                "ethusdt".to_string(),
+            ],
+        }
+    }
 }
